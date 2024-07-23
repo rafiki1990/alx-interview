@@ -17,7 +17,7 @@ def makeChange(coins, total):
         - If total is 0 or less, returns 0.
         - The value of a coin will always be an integer greater than 0.
         - You can assume you have an infinite number of each
-            denomination of coin in the list.
+          denomination of coin in the list.
     """
     if total <= 0:
         return 0
