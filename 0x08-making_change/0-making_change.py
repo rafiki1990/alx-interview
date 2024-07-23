@@ -33,7 +33,4 @@ def makeChange(coins, total):
             dp[i] = min(dp[i], dp[i - coin] + 1)
 
     # If total is unreachable, return -1; otherwise, return minimum coins needed
-    if dp[total] == float('inf'):
-        return -1
-    else:
-        return dp[total]
+    return dp[total] if dp[total] != float('inf') else -1
