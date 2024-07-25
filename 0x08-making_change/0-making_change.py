@@ -1,24 +1,38 @@
 #!/usr/bin/python3
+"""0-making_change module."""
 
-def make_change(coins, total):
-    """Return the fewest number of coins needed to make the total."""
 
-    # Edge case: if total is 0 or less, return 0
+def makeChange(coins, total):
+    """
+    Determine the fewest number of coins needed to meet a given total amount.
+
+    Args:
+        coins (list of int): List of coin values available.
+        total (int): The target total amount.
+
+    Returns:
+        int: Fewest number of coins needed to meet the total amount.
+             Returns -1 if the total cannot be met by any combination of coins.
+
+    Note:
+        - If total is 0 or less, returns 0.
+        - The value of a coin will always be an integer greater than 0.
+        - You can assume you have an infinite number of each
+            denomination of coin in the list.
+    """
     if total <= 0:
         return 0
 
-    # Initialize a list to store the minimum number of coins for each amount
-    dp = [float('inf')] * (total + 1)
+    min_coins = [float('inf')] * (total + 1)
+    min_coins[0] = 0
 
-    # Base case: 0 coins are needed to make the total of 0
-    dp[0] = 0
-
-    # Iterate through all amounts from 1 to total
     for amount in range(1, total + 1):
-        # Check each coin to find the minimum number of coins needed
-        for coin in coins:
-            if amount - coin >= 0:
-                dp[amount] = min(dp[amount], dp[amount - coin] + 1)
+        for coin_value in coins:
+            if amount - coin_value >= 0:
+                min_coins[amount] = min(min_coins[amount],
+                                        min_coins[amount - coin_value] + 1)
 
-    # If dp[total] is still infinity, it means we can't make up the total with the given coins
-    return dp[total] if dp[total] != float('inf') else -1
+    if min_coins[total] == float('inf'):
+        return -1
+    else:
+        return min_coins[total]
