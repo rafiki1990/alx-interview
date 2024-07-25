@@ -2,7 +2,7 @@
 
 def make_change(coins, total):
     """Return the fewest number of coins needed to make the total."""
-    
+
     # Edge case: if total is 0 or less, return 0
     if total <= 0:
         return 0
