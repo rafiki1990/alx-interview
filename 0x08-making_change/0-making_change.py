@@ -20,6 +20,11 @@ def makeChange(coins, total):
     return dp[total] if dp[total] != float('inf') else -1
 
 # Example usage
-coins = [1, 2, 5]
-total = 11
-print(makeChange(coins, total))  # Output: 3 (11 = 5 + 5 + 1)
+if __name__ == "__main__":
+    coins1 = [1, 2, 25]
+    total1 = 37
+    print(makeChange(coins1, total1))  # Output should be 7 or revise expectation
+    
+    coins2 = [1256, 54, 48, 16, 102]
+    total2 = 1453
+    print(makeChange(coins2, total2))  # Output should be -1
