@@ -1,30 +1,24 @@
 #!/usr/bin/python3
 
-def makeChange(coins, total):
+def make_change(coins, total):
+    """Return the fewest number of coins needed to make the total."""
+    
+    # Edge case: if total is 0 or less, return 0
     if total <= 0:
         return 0
-    
-    # Initialize the DP table with a large number (infinity)
-    dp = [float('inf')] * (total + 1)
-    
-    # Base case
-    dp[0] = 0
-    
-    # Fill the DP table
-    for coin in coins:
-        for amount in range(coin, total + 1):
-            if dp[amount - coin] != float('inf'):
-                dp[amount] = min(dp[amount], dp[amount - coin] + 1)
-    
-    # If dp[total] is still infinity, return -1 as it is not possible to form that amount
-    return dp[total] if dp[total] != float('inf') else -1
 
-# Example usage
-if __name__ == "__main__":
-    coins1 = [1, 2, 25]
-    total1 = 37
-    print(makeChange(coins1, total1))  # Output should be 7 or revise expectation
-    
-    coins2 = [1256, 54, 48, 16, 102]
-    total2 = 1453
-    print(makeChange(coins2, total2))  # Output should be -1
+    # Initialize a list to store the minimum number of coins for each amount
+    dp = [float('inf')] * (total + 1)
+
+    # Base case: 0 coins are needed to make the total of 0
+    dp[0] = 0
+
+    # Iterate through all amounts from 1 to total
+    for amount in range(1, total + 1):
+        # Check each coin to find the minimum number of coins needed
+        for coin in coins:
+            if amount - coin >= 0:
+                dp[amount] = min(dp[amount], dp[amount - coin] + 1)
+
+    # If dp[total] is still infinity, it means we can't make up the total with the given coins
+    return dp[total] if dp[total] != float('inf') else -1
