@@ -6,62 +6,56 @@ Prime Game
 
 def isWinner(x, nums):
     """
-    Determines the winner of the prime game.
-
-    Args:
-        x (int): The number of rounds.
-        nums (list): An array of n for each round.
-
-    Returns:
-        str: The name of the player that won the most rounds.
-             If the winner cannot be determined, returns None.
+    Determines if a player can win the game
     """
-    def is_prime(num):
+    if not nums or x < 1:
+        return None
+
+    def sieve(max_n):
         """
-        Checks if a number is prime.
-
-        Args:
-            num (int): The number to check.
-
-        Returns:
-            bool: True if the number is prime, False otherwise.
+        Sieve of Eratosthenes
         """
-        if num < 2:
-            return False
-        for i in range(2, int(num ** 0.5) + 1):
-            if num % i == 0:
-                return False
-        return True
+        primes = [True] * (max_n + 1)
+        primes[0] = primes[1] = False
+        p = 2
+        while p * p <= max_n:
+            if primes[p]:
+                for i in range(p * p, max_n + 1, p):
+                    primes[i] = False
+            p += 1
+        return [i for i, is_prime in enumerate(primes) if is_prime]
 
-    def winner_of_round(n):
+    max_n = max(nums)
+    primes = sieve(max_n)
+
+    def count_prime_multiples(n, primes):
         """
-        Determines the winner of a single round.
-
-        Args:
-            n (int): The upper limit of the numbers for the round.
-
-        Returns:
-            str: The name of the winner (Maria or Ben).
+        Count the number of prime multiples
         """
-        primes = [i for i in range(2, n + 1) if is_prime(i)]
-        if len(primes) % 2 == 0:
-            return "Ben"
-        else:
-            return "Maria"
+        count = 0
+        is_prime_multiple = [False] * (n + 1)
+        for prime in primes:
+            if prime > n:
+                break
+            for multiple in range(prime, n + 1, prime):
+                if not is_prime_multiple[multiple]:
+                    count += 1
+                    is_prime_multiple[multiple] = True
+        return count
 
     maria_wins = 0
     ben_wins = 0
 
     for n in nums:
-        winner = winner_of_round(n)
-        if winner == "Maria":
-            maria_wins += 1
-        elif winner == "Ben":
+        prime_count = count_prime_multiples(n, primes)
+        if prime_count % 2 == 0:
             ben_wins += 1
+        else:
+            maria_wins += 1
 
     if maria_wins > ben_wins:
         return "Maria"
-    elif maria_wins < ben_wins:
+    elif ben_wins > maria_wins:
         return "Ben"
     else:
         return None
