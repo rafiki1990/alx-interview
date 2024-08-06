@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 def isWinner(x, nums):
     if not nums or x < 1:
         return None
@@ -49,6 +51,7 @@ def isWinner(x, nums):
         return None
 
 # Example usage:
-x = 3
-nums = [4, 5, 1]
-print(isWinner(x, nums))  # Output should be "Ben"
+if __name__ == "__main__":
+    x = 3
+    nums = [4, 5, 1]
+    print(isWinner(x, nums))  # Output should be "Ben"
